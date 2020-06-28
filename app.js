@@ -5,7 +5,9 @@ showNotes()
 // add event lisente in #add-btn for gating text form #add-text
 const addBtn = document.getElementById("add-btn");
 addBtn.addEventListener("click", function () {
+    let addTextHeading = document.getElementById("add-text-heading")
     let addText = document.getElementById('add-text')
+
     // gating value form localStorage
     let notes = localStorage.getItem("notes")
     let noteObj = []
@@ -15,8 +17,14 @@ addBtn.addEventListener("click", function () {
     else {
         noteObj = JSON.parse(notes)
     }
-    noteObj.push(addText.value)
+    let myObj = {
+        title: addTextHeading.value,
+        value: addText.value
+    }
+
+    noteObj.push(myObj)
     localStorage.setItem("notes", JSON.stringify(noteObj))
+    addTextHeading.value = ""
     addText.value = ""
     showNotes()
 })
@@ -36,8 +44,9 @@ function showNotes() {
         html += ` 
         <div  class="card cart m-2" style="width: 22.48rem;">
             <div class="card-body cart">
-                <h5 class="card-title">Note:${index + 1}</h5>
-                <p class="card-text">${note}</p>
+                <h4 class="card-title ">${note.title}</h4>
+                <hr>
+                <p class="card-text">${note.value}</p>
                 <a id=${index} onclick="deleteNote(this.id)" class="btn btn-primary">Delete</a>
             </div>
         </div>`
